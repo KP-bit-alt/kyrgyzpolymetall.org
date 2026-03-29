@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kyrgyzpolymetall</title>
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --panel: rgba(255,255,255,0.10);
+        --panel-strong: rgba(255,255,255,0.14);
+        --text: #0f172a;
+        --muted: #526073;
+        --white: #ffffff;
+        --border: rgba(255,255,255,0.18);
+        --blue: #0f3d68;
+        --blue-2: #164f86;
+        --light: #e8eff7;
+        --shadow: 0 18px 48px rgba(15, 23, 42, 0.14);
+        --radius-xl: 28px;
+        --radius-lg: 22px;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Inter, Arial, Helvetica, sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+
+      a { color: inherit; text-decoration: none; }
+      button, select { font: inherit; }
+
+      .container {
+        width: min(1500px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+      }
+
+      .header-inner {
+        width: min(1500px, calc(100% - 24px));
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 0;
+      }
+
+      .brand,
+      .nav-btn,
+      .lang-switch,
+      .menu-toggle,
+      .mobile-menu {
+        backdrop-filter: blur(14px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--white);
+        border-radius: 18px;
+        padding: 10px 12px;
+        box-shadow: var(--shadow);
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #cce5f8, #8dc0ea);
+        color: #123b60;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+        font-size: 11px;
+      }
+
+      .brand-copy small {
+        display: block;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.74);
+        font-size: 10px;
+        margin-bottom: 2px;
+      }
+
+      .brand-copy strong {
+        display: block;
+        font-size: 14px;
+      }
+
+      .desktop-nav {
+        display: flex;
+        gap: 10px;
+      }
+
+      .nav-btn {
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--white);
+        border-radius: 18px;
+        padding: 12px 18px;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .nav-btn:hover,
+      .menu-toggle:hover,
+      .lang-btn:hover,
+      .mobile-link:hover,
+      .hero-btn:hover {
+        background: var(--panel-strong);
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .lang-switch {
+        display: flex;
+        gap: 4px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: 18px;
+        padding: 4px;
+        box-shadow: var(--shadow);
+      }
+
+      .lang-btn {
+        background: transparent;
+        border: 0;
+        color: var(--white);
+        border-radius: 14px;
+        padding: 9px 12px;
+        cursor: pointer;
+      }
+
+      .lang-btn.active {
+        background: rgba(255,255,255,0.18);
+        color: #ffe071;
+      }
+
+      .menu-toggle {
+        display: none;
+        width: 48px;
+        height: 48px;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--white);
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+
+      .mobile-menu {
+        display: none;
+        width: min(1500px, calc(100% - 24px));
+        margin: 0 auto;
+        background: rgba(10, 18, 32, 0.82);
+        color: var(--white);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 14px;
+        box-shadow: var(--shadow);
+      }
+
+      .mobile-menu.open { display: block; }
+      .mobile-links { display: grid; gap: 10px; }
+      .mobile-link {
+        background: rgba(255,255,255,0.08);
+        color: var(--white);
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 18px;
+        padding: 14px 16px;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: flex-end;
+        position: relative;
+        overflow: hidden;
+        background:
+          linear-gradient(to right, rgba(9,22,34,0.74) 0%, rgba(9,22,34,0.52) 28%, rgba(9,22,34,0.2) 58%, rgba(9,22,34,0.08) 100%),
+          linear-gradient(to bottom, rgba(20,53,92,0.20), rgba(14,32,44,0.06) 42%, rgba(11,33,25,0.14) 100%),
+          url('./hero-bg.png') center center / cover no-repeat;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 22% 26%, rgba(255,255,255,0.15), transparent 22%);
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        padding: 128px 0 56px;
+      }
+
+      .hero-wrap {
+        max-width: 600px;
+        color: var(--white);
+      }
+
+      .hero-chip {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: 999px;
+        padding: 10px 14px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .hero-card {
+        margin-top: 18px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(0,0,0,0.16);
+        border-radius: var(--radius-xl);
+        padding: 24px;
+        backdrop-filter: blur(6px);
+        box-shadow: var(--shadow);
+      }
+
+      .hero-card h1 {
+        margin: 0;
+        max-width: 14ch;
+        font-size: 45px;
+        line-height: 0.98;
+      }
+
+      .hero-card p {
+        margin: 16px 0 0;
+        color: rgba(255,255,255,0.88);
+        line-height: 1.7;
+        font-size: 16px;
+      }
+
+      .hero-actions { margin-top: 24px; }
+      .hero-btn {
+        border: 1px solid rgba(255,255,255,0.20);
+        background: var(--panel);
+        color: var(--white);
+        border-radius: 999px;
+        padding: 14px 20px;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+      }
+
+      section.content-section {
+        padding: 72px 0;
+      }
+
+      .section-head {
+        margin-bottom: 36px;
+      }
+
+      .section-head p {
+        margin: 0;
+        color: #1f5f9d;
+        text-transform: uppercase;
+        letter-spacing: 0.28em;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .section-head h2 {
+        margin: 12px 0 0;
+        font-size: 44px;
+        line-height: 1.05;
+      }
+
+      .section-head .lead {
+        margin-top: 16px;
+        max-width: 820px;
+        font-size: 18px;
+        line-height: 1.7;
+        color: var(--muted);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 24px;
+      }
+
+      .panel-light,
+      .panel-dark,
+      .placeholder-box,
+      .contacts-box,
+      .footer-box {
+        border-radius: var(--radius-xl);
+      }
+
+      .panel-light {
+        background: #ffffff;
+        border: 1px solid #dfe7f1;
+        padding: 32px;
+        box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+      }
+
+      .panel-dark {
+        background: #0f172a;
+        color: var(--white);
+        padding: 32px;
+        box-shadow: var(--shadow);
+      }
+
+      .about-intro {
+        font-size: 18px;
+        line-height: 1.7;
+        color: var(--muted);
+        margin-top: 16px;
+      }
+
+      .about-top {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: rgba(255,255,255,0.10);
+        font-size: 22px;
+      }
+
+      .about-list {
+        display: grid;
+        gap: 14px;
+      }
+
+      .about-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        color: rgba(255,255,255,0.88);
+        line-height: 1.7;
+      }
+
+      .about-item .arrow {
+        color: #88b9ee;
+        font-weight: 700;
+      }
+
+      .placeholder-section {
+        background: #dfe7f3;
+      }
+
+      .placeholder-box {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid #dfe7f1;
+        padding: 56px 32px;
+        text-align: center;
+        box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+      }
+
+      .placeholder-box p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 22px;
+        line-height: 1.6;
+      }
+
+      .contacts-section {
+        background: #dfe7f3;
+      }
+
+      .contacts-box {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid #dfe7f1;
+        padding: 32px;
+        box-shadow: 0 12px 34px rgba(15, 23, 42, 0.06);
+      }
+
+      .contacts-box h2 {
+        margin: 10px 0 0;
+        font-size: 40px;
+      }
+
+      .contacts-lead {
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.7;
+        margin-top: 16px;
+      }
+
+      .contact-grid {
+        display: grid;
+        gap: 14px;
+        margin-top: 28px;
+      }
+
+      .contact-row {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        background: #f7f9fc;
+        border-radius: 18px;
+        padding: 16px;
+      }
+
+      .contact-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: #dceeff;
+        color: #0f3d68;
+        display: grid;
+        place-items: center;
+        font-size: 18px;
+        flex-shrink: 0;
+      }
+
+      .contact-meta small {
+        display: block;
+        color: #708090;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .contact-meta strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 17px;
+        line-height: 1.5;
+      }
+
+      footer {
+        background: #0f172a;
+        color: var(--white);
+        padding: 40px 0 28px;
+      }
+
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 28px;
+      }
+
+      .footer-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .footer-copy {
+        margin-top: 16px;
+        max-width: 560px;
+        color: rgba(255,255,255,0.78);
+        line-height: 1.7;
+      }
+
+      .footer-links-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+
+      .footer-title {
+        color: rgba(255,255,255,0.56);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        font-size: 11px;
+        font-weight: 700;
+        margin-bottom: 14px;
+      }
+
+      .footer-links,
+      .footer-contact {
+        display: grid;
+        gap: 8px;
+      }
+
+      .footer-links button {
+        background: transparent;
+        border: 0;
+        color: rgba(255,255,255,0.86);
+        text-align: left;
+        padding: 0;
+        cursor: pointer;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(255,255,255,0.10);
+        margin-top: 28px;
+        padding-top: 18px;
+        color: rgba(255,255,255,0.54);
+        font-size: 14px;
+      }
+
+      @media (max-width: 1100px) {
+        .desktop-nav { display: none; }
+        .menu-toggle { display: grid; place-items: center; }
+      }
+
+      @media (max-width: 900px) {
+        .about-grid,
+        .footer-grid,
+        .footer-links-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-card h1 { font-size: 36px; max-width: 16ch; }
+        .section-head h2 { font-size: 36px; }
+        .contacts-box h2 { font-size: 34px; }
+      }
+
+      @media (max-width: 640px) {
+        .container,
+        .header-inner,
+        .mobile-menu { width: min(100% - 18px, 1500px); }
+        .brand-copy { display: none; }
+        .lang-switch { display: none; }
+        .hero-content { padding: 118px 0 40px; }
+        .hero-card { padding: 20px; }
+        .hero-card h1 { font-size: 28px; }
+        .hero-card p { font-size: 15px; }
+        section.content-section { padding: 56px 0; }
+        .panel-light,
+        .panel-dark,
+        .contacts-box,
+        .placeholder-box { padding: 24px; }
+        .section-head h2 { font-size: 30px; }
+        .section-head .lead,
+        .about-intro,
+        .contacts-lead,
+        .placeholder-box p { font-size: 17px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <button class="brand" data-target="top" type="button">
+          <div class="brand-mark">KPM</div>
+          <div class="brand-copy">
+            <small id="brandLegal">LLC</small>
+            <strong id="brandCompany">Кыргызполиметалл</strong>
+          </div>
+        </button>
+
+        <nav class="desktop-nav" id="desktopNav"></nav>
+
+        <div class="controls">
+          <div class="lang-switch">
+            <button class="lang-btn active" data-lang="ru" type="button">RU</button>
+            <button class="lang-btn" data-lang="kg" type="button">KG</button>
+            <button class="lang-btn" data-lang="en" type="button">EN</button>
+          </div>
+          <button class="menu-toggle" id="menuToggle" type="button">☰</button>
+        </div>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
+        <div class="lang-switch" style="display:flex; margin-bottom:14px;">
+          <button class="lang-btn active" data-lang="ru" type="button">RU</button>
+          <button class="lang-btn" data-lang="kg" type="button">KG</button>
+          <button class="lang-btn" data-lang="en" type="button">EN</button>
+        </div>
+        <div class="mobile-links" id="mobileNav"></div>
+      </div>
+    </header>
+
+    <section class="hero" id="top">
+      <div class="container hero-content">
+        <div class="hero-wrap">
+          <div class="hero-chip" id="heroChip">Кыргызполиметалл</div>
+          <div class="hero-card">
+            <h1 id="heroTitle">Общество с ограниченной ответственностью «Кыргызполиметалл»</h1>
+            <p id="heroText"></p>
+            <div class="hero-actions">
+              <button class="hero-btn" id="heroButton" data-target="news" type="button"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <p id="aboutEyebrow"></p>
+          <h2 id="aboutHeading"></h2>
+        </div>
+
+        <div class="about-grid">
+          <div class="panel-light">
+            <p class="about-intro" id="aboutLead"></p>
+          </div>
+
+          <div class="panel-dark">
+            <div class="about-top">
+              <div class="icon-box">🏢</div>
+              <strong id="aboutCompany"></strong>
+            </div>
+            <div class="about-list" id="aboutList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section placeholder-section" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <p id="projectsEyebrow"></p>
+          <h2 id="projectsHeading"></h2>
+          <p class="lead" id="projectsLead"></p>
+        </div>
+
+        <div class="placeholder-box">
+          <p id="projectsEmpty"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="news">
+      <div class="container">
+        <div class="section-head">
+          <p id="newsEyebrow"></p>
+          <h2 id="newsHeading"></h2>
+        </div>
+
+        <div class="placeholder-box">
+          <p id="newsEmpty"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section contacts-section" id="contacts">
+      <div class="container">
+        <div class="contacts-box">
+          <p class="section-head" style="margin:0;">
+            <span id="contactsEyebrow" style="display:block; margin-bottom:12px; color:#1f5f9d; text-transform:uppercase; letter-spacing:0.28em; font-size:12px; font-weight:700;"></span>
+            <span id="contactsHeading" style="display:block; font-size:40px; line-height:1.05; color:#0f172a; font-weight:800;"></span>
+          </p>
+          <p class="contacts-lead" id="contactsLead"></p>
+          <div class="contact-grid" id="contactGrid"></div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-brand">
+              <div class="brand-mark">KPM</div>
+              <div>
+                <small id="footerLegal" style="display:block; letter-spacing:0.22em; text-transform:uppercase; color:rgba(255,255,255,0.6); font-size:10px; margin-bottom:2px;">LLC</small>
+                <strong id="footerCompany">Кыргызполиметалл</strong>
+              </div>
+            </div>
+            <p class="footer-copy" id="footerText"></p>
+          </div>
+
+          <div class="footer-links-grid">
+            <div>
+              <div class="footer-title" id="footerNavTitle"></div>
+              <div class="footer-links" id="footerNav"></div>
+            </div>
+            <div>
+              <div class="footer-title" id="footerContactTitle"></div>
+              <div class="footer-contact" id="footerContact"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom" id="footerCopy"></div>
+      </div>
+    </footer>
+
+    <script>
+      const translations = {
+        ru: {
+          legalShort: 'LLC',
+          company: 'Кыргызполиметалл',
+          heroTitle: 'Общество с ограниченной ответственностью «Кыргызполиметалл»',
+          heroText: 'Официальный сайт компании с полноэкранной главной секцией, новостями, проектами и основной информацией о деятельности.',
+          heroButton: 'Смотреть новости',
+          nav: ['Главная', 'О компании', 'Проекты', 'Новости', 'Контакты'],
+          targets: ['top', 'about', 'projects', 'news', 'contacts'],
+          aboutEyebrow: 'О компании',
+          aboutHeading: 'О компании',
+          aboutLead: 'ОсОО «Кыргызполиметалл» — компания, 100% доля которой принадлежит государству. Основным направлением деятельности является освоение рудных месторождений на территории Кыргызской Республики.',
+          aboutPoints: [
+            '100% доля участия в уставном капитале принадлежит государству;',
+            'основное направление деятельности — освоение рудных месторождений в Кыргызской Республике;',
+            'компания реализует проекты, связанные с развитием минерально-сырьевой базы;',
+            'деятельность осуществляется с учетом производственной безопасности и государственных интересов.'
+          ],
+          projectsEyebrow: 'Проекты',
+          projectsHeading: 'Проекты',
+          projectsLead: 'Раздел будет использоваться для публикации официальной информации по объектам, участкам и инициативам компании.',
+          projectsEmpty: 'Проекты будут добавлены по мере поступления официальных материалов.',
+          newsEyebrow: 'Новости',
+          newsHeading: 'Новости',
+          newsEmpty: 'Новости будут добавлены по мере поступления официальных материалов.',
+          contactsEyebrow: 'Контакты',
+          contactsHeading: 'Связаться с нами',
+          contactsLead: 'В данный блок можно добавить официальные контактные данные, адрес, телефоны и электронную почту.',
+          contacts: [
+            { icon: '📍', label: 'Адрес', value: 'г. Бишкек, официальный адрес компании' },
+            { icon: '☎', label: 'Телефон', value: '+996 (___) ___ ___' },
+            { icon: '✉', label: 'Электронная почта', value: 'info@kyrgyzpolymetall.org' },
+            { icon: '🕘', label: 'График работы', value: 'Пн–Пт, 09:00–18:00' }
+          ],
+          footerText: 'Официальный корпоративный сайт компании.',
+          footerNavTitle: 'Навигация',
+          footerContactTitle: 'Контакты',
+          footerCopy: '© 2026 ОсОО «Кыргызполиметалл». Все права защищены.'
+        },
+        kg: {
+          legalShort: 'LLC',
+          company: 'Кыргызполиметалл',
+          heroTitle: '«Кыргызполиметалл» жоопкерчилиги чектелген коому',
+          heroText: 'Компаниянын расмий сайты: толук экрандуу башкы бөлүм, жаңылыктар, долбоорлор жана ишмердик боюнча негизги маалымат.',
+          heroButton: 'Жаңылыктарды көрүү',
+          nav: ['Башкы бет', 'Компания жөнүндө', 'Долбоорлор', 'Жаңылыктар', 'Байланыш'],
+          targets: ['top', 'about', 'projects', 'news', 'contacts'],
+          aboutEyebrow: 'Компания жөнүндө',
+          aboutHeading: 'Компания жөнүндө',
+          aboutLead: '«Кыргызполиметалл» ЖЧКсы — үлүшүнүн 100% мамлекетке таандык болгон компания. Анын негизги иш багыты Кыргыз Республикасынын аймагындагы рудалык кендерди өздөштүрүү болуп саналат.',
+          aboutPoints: [
+            'уставдык капиталдагы үлүштүн 100% мамлекетке таандык;',
+            'негизги иш багыты — Кыргыз Республикасындагы рудалык кендерди өздөштүрүү;',
+            'компания минералдык-чийки зат базасын өнүктүрүүгө байланышкан долбоорлорду ишке ашырат;',
+            'ишмердик өндүрүштүк коопсуздукту жана мамлекеттик кызыкчылыктарды эске алуу менен жүргүзүлөт.'
+          ],
+          projectsEyebrow: 'Долбоорлор',
+          projectsHeading: 'Долбоорлор',
+          projectsLead: 'Бул бөлүм компаниянын объекттери, участоктору жана демилгелери боюнча расмий маалыматтарды жайгаштыруу үчүн колдонулат.',
+          projectsEmpty: 'Долбоорлор расмий материалдар даяр болгондо кошулат.',
+          newsEyebrow: 'Жаңылыктар',
+          newsHeading: 'Жаңылыктар',
+          newsEmpty: 'Жаңылыктар расмий материалдар даяр болгондо кошулат.',
+          contactsEyebrow: 'Байланыш',
+          contactsHeading: 'Биз менен байланыш',
+          contactsLead: 'Бул блокко расмий дарек, телефон номерлери жана электрондук почта кошулушу мүмкүн.',
+          contacts: [
+            { icon: '📍', label: 'Дарек', value: 'Бишкек ш., компаниянын расмий дареги' },
+            { icon: '☎', label: 'Телефон', value: '+996 (___) ___ ___' },
+            { icon: '✉', label: 'Электрондук почта', value: 'info@kyrgyzpolymetall.org' },
+            { icon: '🕘', label: 'Иштөө убактысы', value: 'Дш–Жм, 09:00–18:00' }
+          ],
+          footerText: 'Компаниянын расмий корпоративдик сайты.',
+          footerNavTitle: 'Навигация',
+          footerContactTitle: 'Байланыш',
+          footerCopy: '© 2026 «Кыргызполиметалл» ЖЧК. Бардык укуктар корголгон.'
+        },
+        en: {
+          legalShort: 'LLC',
+          company: 'Kyrgyzpolymetall',
+          heroTitle: 'Kyrgyzpolymetall Limited Liability Company',
+          heroText: 'Official company website with a full-screen landing section, news, projects, and key information about operations.',
+          heroButton: 'View news',
+          nav: ['Home', 'About', 'Projects', 'News', 'Contacts'],
+          targets: ['top', 'about', 'projects', 'news', 'contacts'],
+          aboutEyebrow: 'About',
+          aboutHeading: 'About the company',
+          aboutLead: 'Kyrgyzpolymetall LLC is a company that is 100% state-owned. Its core activity is the development of ore deposits in the Kyrgyz Republic.',
+          aboutPoints: [
+            '100% of the ownership interest belongs to the state;',
+            'the core area of activity is the development of ore deposits in the Kyrgyz Republic;',
+            'the company implements projects related to the development of the mineral resource base;',
+            'operations are carried out with due regard to industrial safety and state interests.'
+          ],
+          projectsEyebrow: 'Projects',
+          projectsHeading: 'Projects',
+          projectsLead: 'This section will be used to publish official information on company assets, sites, and initiatives.',
+          projectsEmpty: 'Projects will be added as official materials become available.',
+          newsEyebrow: 'News',
+          newsHeading: 'News',
+          newsEmpty: 'News will be added as official materials become available.',
+          contactsEyebrow: 'Contacts',
+          contactsHeading: 'Get in touch',
+          contactsLead: 'This block can include the official address, phone numbers, and email.',
+          contacts: [
+            { icon: '📍', label: 'Address', value: 'Bishkek, official company address' },
+            { icon: '☎', label: 'Phone', value: '+996 (___) ___ ___' },
+            { icon: '✉', label: 'Email', value: 'info@kyrgyzpolymetall.org' },
+            { icon: '🕘', label: 'Business hours', value: 'Mon–Fri, 09:00–18:00' }
+          ],
+          footerText: 'Official corporate website of the company.',
+          footerNavTitle: 'Navigation',
+          footerContactTitle: 'Contact',
+          footerCopy: '© 2026 LLC “Kyrgyzpolymetall”. All rights reserved.'
+        }
+      };
+
+      let currentLang = 'ru';
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      function renderNav() {
+        const t = translations[currentLang];
+        const desktopNav = document.getElementById('desktopNav');
+        const mobileNav = document.getElementById('mobileNav');
+        const footerNav = document.getElementById('footerNav');
+
+        desktopNav.innerHTML = '';
+        mobileNav.innerHTML = '';
+        footerNav.innerHTML = '';
+
+        t.nav.forEach((label, index) => {
+          const target = t.targets[index];
+
+          const btn = document.createElement('button');
+          btn.className = 'nav-btn';
+          btn.type = 'button';
+          btn.textContent = label;
+          btn.addEventListener('click', () => scrollToSection(target));
+          desktopNav.appendChild(btn);
+
+          const mobileBtn = document.createElement('button');
+          mobileBtn.className = 'mobile-link';
+          mobileBtn.type = 'button';
+          mobileBtn.textContent = label;
+          mobileBtn.addEventListener('click', () => scrollToSection(target));
+          mobileNav.appendChild(mobileBtn);
+
+          const footerBtn = document.createElement('button');
+          footerBtn.type = 'button';
+          footerBtn.textContent = label;
+          footerBtn.addEventListener('click', () => scrollToSection(target));
+          footerNav.appendChild(footerBtn);
+        });
+      }
+
+      function renderAboutList() {
+        const list = document.getElementById('aboutList');
+        list.innerHTML = '';
+        translations[currentLang].aboutPoints.forEach((point) => {
+          const row = document.createElement('div');
+          row.className = 'about-item';
+          row.innerHTML = `<span class="arrow">›</span><span>${point}</span>`;
+          list.appendChild(row);
+        });
+      }
+
+      function renderContacts() {
+        const grid = document.getElementById('contactGrid');
+        grid.innerHTML = '';
+        translations[currentLang].contacts.forEach((item) => {
+          const row = document.createElement('div');
+          row.className = 'contact-row';
+          row.innerHTML = `
+            <div class="contact-icon">${item.icon}</div>
+            <div class="contact-meta">
+              <small>${item.label}</small>
+              <strong>${item.value}</strong>
+            </div>
+          `;
+          grid.appendChild(row);
+        });
+      }
+
+      function renderFooterContact() {
+        const box = document.getElementById('footerContact');
+        const contacts = translations[currentLang].contacts;
+        box.innerHTML = `
+          <span>${contacts[2].value}</span>
+          <span>${contacts[1].value}</span>
+          <span>${contacts[0].value}</span>
+        `;
+      }
+
+      function applyTranslations() {
+        const t = translations[currentLang];
+        document.documentElement.lang = currentLang;
+
+        document.getElementById('brandLegal').textContent = t.legalShort;
+        document.getElementById('brandCompany').textContent = t.company;
+        document.getElementById('heroChip').textContent = t.company;
+        document.getElementById('heroTitle').textContent = t.heroTitle;
+        document.getElementById('heroText').textContent = t.heroText;
+        document.getElementById('heroButton').textContent = t.heroButton;
+
+        document.getElementById('aboutEyebrow').textContent = t.aboutEyebrow;
+        document.getElementById('aboutHeading').textContent = t.aboutHeading;
+        document.getElementById('aboutLead').textContent = t.aboutLead;
+        document.getElementById('aboutCompany').textContent = t.company;
+
+        document.getElementById('projectsEyebrow').textContent = t.projectsEyebrow;
+        document.getElementById('projectsHeading').textContent = t.projectsHeading;
+        document.getElementById('projectsLead').textContent = t.projectsLead;
+        document.getElementById('projectsEmpty').textContent = t.projectsEmpty;
+
+        document.getElementById('newsEyebrow').textContent = t.newsEyebrow;
+        document.getElementById('newsHeading').textContent = t.newsHeading;
+        document.getElementById('newsEmpty').textContent = t.newsEmpty;
+
+        document.getElementById('contactsEyebrow').textContent = t.contactsEyebrow;
+        document.getElementById('contactsHeading').textContent = t.contactsHeading;
+        document.getElementById('contactsLead').textContent = t.contactsLead;
+
+        document.getElementById('footerLegal').textContent = t.legalShort;
+        document.getElementById('footerCompany').textContent = t.company;
+        document.getElementById('footerText').textContent = t.footerText;
+        document.getElementById('footerNavTitle').textContent = t.footerNavTitle;
+        document.getElementById('footerContactTitle').textContent = t.footerContactTitle;
+        document.getElementById('footerCopy').textContent = t.footerCopy;
+
+        renderNav();
+        renderAboutList();
+        renderContacts();
+        renderFooterContact();
+
+        document.querySelectorAll('.lang-btn').forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.lang === currentLang);
+        });
+      }
+
+      function scrollToSection(id) {
+        if (id === 'top') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+        }
+        mobileMenu.classList.remove('open');
+        menuToggle.textContent = '☰';
+      }
+
+      document.querySelectorAll('[data-lang]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          currentLang = btn.dataset.lang;
+          applyTranslations();
+        });
+      });
+
+      document.querySelectorAll('[data-target]').forEach((btn) => {
+        btn.addEventListener('click', () => scrollToSection(btn.dataset.target));
+      });
+
+      menuToggle.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('open');
+        menuToggle.textContent = open ? '✕' : '☰';
+      });
+
+      applyTranslations();
+    </script>
+  </body>
+</html>
