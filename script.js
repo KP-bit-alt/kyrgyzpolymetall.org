@@ -31,7 +31,7 @@ const translations = {
     contactsHeading: 'Связаться с нами',
     contactsLead: 'В данный блок можно добавить официальные контактные данные, адрес, телефоны и электронную почту.',
     contactAddressLabel: 'Адрес',
-    contactAddressValue: 'г. Бишкек, официальный адрес компании',
+    contactAddressValue: 'г. Бишкек, проспект Чуй',
     contactPhoneLabel: 'Телефон',
     contactEmailLabel: 'Электронная почта',
     contactHoursLabel: 'График работы',
@@ -39,7 +39,7 @@ const translations = {
     footerText: 'Официальный корпоративный сайт компании.',
     footerNavTitle: 'Навигация',
     footerContactTitle: 'Контакты',
-    footerLocation: 'Bishkek, Kyrgyz Republic',
+    footerLocation: 'г. Бишкек, проспект Чуй',
     footerCopy: '© 2026 ОсОО «Кыргызполиметалл». Все права защищены.'
   },
   kg: {
@@ -71,7 +71,7 @@ const translations = {
     contactsHeading: 'Биз менен байланыш',
     contactsLead: 'Бул блокко расмий дарек, телефон номерлери жана электрондук почта кошулушу мүмкүн.',
     contactAddressLabel: 'Дарек',
-    contactAddressValue: 'Бишкек ш., компаниянын расмий дареги',
+    contactAddressValue: 'Бишкек ш., Чүй проспектиси',
     contactPhoneLabel: 'Телефон',
     contactEmailLabel: 'Электрондук почта',
     contactHoursLabel: 'Иштөө убактысы',
@@ -79,7 +79,7 @@ const translations = {
     footerText: 'Компаниянын расмий корпоративдик сайты.',
     footerNavTitle: 'Навигация',
     footerContactTitle: 'Байланыш',
-    footerLocation: 'Bishkek, Kyrgyz Republic',
+    footerLocation: 'Бишкек ш., Чүй проспектиси',
     footerCopy: '© 2026 «Кыргызполиметалл» ЖЧК. Бардык укуктар корголгон.'
   },
   en: {
@@ -111,7 +111,7 @@ const translations = {
     contactsHeading: 'Get in touch',
     contactsLead: 'This block can include the official address, phone numbers and email.',
     contactAddressLabel: 'Address',
-    contactAddressValue: 'Bishkek, official company address',
+    contactAddressValue: 'Bishkek city, Chuy Ave',
     contactPhoneLabel: 'Phone',
     contactEmailLabel: 'Email',
     contactHoursLabel: 'Business hours',
@@ -119,7 +119,7 @@ const translations = {
     footerText: 'Official corporate website of the company.',
     footerNavTitle: 'Navigation',
     footerContactTitle: 'Contact',
-    footerLocation: 'Bishkek, Kyrgyz Republic',
+    footerLocation: 'Bishkek city, Chuy Ave',
     footerCopy: '© 2026 LLC “Kyrgyzpolymetall”. All rights reserved.'
   }
 };

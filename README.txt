@@ -24,3 +24,9 @@ HOW TO ADD PROJECTS
 IMPORTANT
 - Right now, all projects appear in the Projects section.
 - Right now, all news items appear in the News section.
+
+
+CURRENT CONTACT DETAILS
+- Public email on website: director@kyrgyzpolymetall.org
+- Phone on website: 0709371329
+- Address on website: Bishkek city, Chuy Ave
