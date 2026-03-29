@@ -1,3 +1,6 @@
+import { newsItems } from './news-data.js';
+import { projectItems } from './projects-data.js';
+
 const translations = {
   ru: {
     legalShort: 'LLC',
@@ -121,18 +124,119 @@ const translations = {
   }
 };
 
+let currentLang = 'ru';
+
 const langButtons = document.querySelectorAll('.lang-btn');
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
+const projectsGrid = document.getElementById('projectsGrid');
+const newsGrid = document.getElementById('newsGrid');
+const projectsEmpty = document.getElementById('projectsEmpty');
+const newsEmpty = document.getElementById('newsEmpty');
+
+function t(key) {
+  return translations[currentLang][key] || '';
+}
+
+function getLocalizedNewsItem(item) {
+  return {
+    title: item[`title${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`],
+    excerpt: item[`excerpt${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`]
+  };
+}
+
+function getLocalizedProjectItem(item) {
+  return {
+    title: item[`title${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`],
+    subtitle: item[`subtitle${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`],
+    text: item[`text${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`]
+  };
+}
+
+function renderProjects() {
+  projectsGrid.innerHTML = '';
+
+  if (!projectItems.length) {
+    projectsEmpty.classList.remove('hidden');
+    projectsGrid.classList.add('hidden');
+    projectsEmpty.textContent = t('projectsEmpty');
+    return;
+  }
+
+  projectsEmpty.classList.add('hidden');
+  projectsGrid.classList.remove('hidden');
+
+  projectItems.forEach((item, index) => {
+    const localized = getLocalizedProjectItem(item);
+    const article = document.createElement('article');
+    article.className = 'project-card';
+    article.innerHTML = `
+      <div class="project-card-top">
+        <div class="project-index">0${index + 1}</div>
+        <h3>${localized.title || ''}</h3>
+        <div class="project-subtitle">${localized.subtitle || ''}</div>
+      </div>
+      <div class="project-card-body">
+        <p>${localized.text || ''}</p>
+      </div>
+    `;
+    projectsGrid.appendChild(article);
+  });
+}
+
+function renderNews() {
+  newsGrid.innerHTML = '';
+
+  if (!newsItems.length) {
+    newsEmpty.classList.remove('hidden');
+    newsGrid.classList.add('hidden');
+    newsEmpty.textContent = t('newsEmpty');
+    return;
+  }
+
+  newsEmpty.classList.add('hidden');
+  newsGrid.classList.remove('hidden');
+
+  newsItems.forEach((item) => {
+    const localized = getLocalizedNewsItem(item);
+    const article = document.createElement('article');
+    article.className = 'news-card';
+    article.innerHTML = `
+      <div class="news-card-visual">
+        <h3 class="news-card-title">${localized.title || ''}</h3>
+        <div class="news-icon-row">
+          <div class="news-icon-box"><div class="news-icon-circle">✉</div></div>
+          <div class="news-icon-box"><div class="news-icon-circle">⛏</div></div>
+        </div>
+      </div>
+      <div class="news-card-body">
+        <div class="news-footer">
+          <div class="news-badge">KPM</div>
+          <div>${t('company')}</div>
+        </div>
+        <p class="news-excerpt">${localized.excerpt || ''}</p>
+        <div class="news-meta">
+          <span>${item.date || ''}</span>
+        </div>
+      </div>
+    `;
+    newsGrid.appendChild(article);
+  });
+}
 
 function applyLanguage(lang) {
+  currentLang = lang;
   document.documentElement.lang = lang;
   const dict = translations[lang];
+
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
     if (dict[key]) node.textContent = dict[key];
   });
+
   langButtons.forEach((btn) => btn.classList.toggle('active', btn.dataset.lang === lang));
+  renderProjects();
+  renderNews();
 }
 
 langButtons.forEach((btn) => {
