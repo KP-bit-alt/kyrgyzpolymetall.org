@@ -138,10 +138,13 @@ function t(key) {
   return translations[currentLang][key] || '';
 }
 
+
+
 function getLocalizedNewsItem(item) {
   return {
     title: item[`title${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`],
-    excerpt: item[`excerpt${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`]
+    excerpt: item[`excerpt${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`],
+    image: item.image || ''
   };
 }
 
@@ -152,7 +155,6 @@ function getLocalizedProjectItem(item) {
     text: item[`text${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`]
   };
 }
-
 function renderProjects() {
   projectsGrid.innerHTML = '';
 
@@ -184,15 +186,7 @@ function renderProjects() {
   });
 }
 
-function renderNews() {
-  newsGrid.innerHTML = '';
-
-  if (!newsItems.length) {
-    newsEmpty.classList.remove('hidden');
-    newsGrid.classList.add('hidden');
-    newsEmpty.textContent = t('newsEmpty');
-    return;
-  }
+renderNews()
 
   newsEmpty.classList.add('hidden');
   newsGrid.classList.remove('hidden');
