@@ -30,3 +30,9 @@ CURRENT CONTACT DETAILS
 - Public email on website: director@kyrgyzpolymetall.org
 - Phone on website: 0709371329
 - Address on website: Bishkek city, Chuy Ave
+
+
+HOW TO ADD NEWS WITH PHOTOS
+- Upload the photo file to the repo root.
+- In news-data.js, add the image filename to the item as image: 'filename.jpg'.
+- Current first news image filename: japankpm.jpeg

@@ -138,8 +138,6 @@ function t(key) {
   return translations[currentLang][key] || '';
 }
 
-
-
 function getLocalizedNewsItem(item) {
   return {
     title: item[`title${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`],
@@ -155,6 +153,7 @@ function getLocalizedProjectItem(item) {
     text: item[`text${currentLang.charAt(0).toUpperCase()}${currentLang.slice(1)}`]
   };
 }
+
 function renderProjects() {
   projectsGrid.innerHTML = '';
 
@@ -186,7 +185,15 @@ function renderProjects() {
   });
 }
 
-renderNews()
+function renderNews() {
+  newsGrid.innerHTML = '';
+
+  if (!newsItems.length) {
+    newsEmpty.classList.remove('hidden');
+    newsGrid.classList.add('hidden');
+    newsEmpty.textContent = t('newsEmpty');
+    return;
+  }
 
   newsEmpty.classList.add('hidden');
   newsGrid.classList.remove('hidden');
@@ -197,17 +204,14 @@ renderNews()
     article.className = 'news-card';
     article.innerHTML = `
       <div class="news-card-visual">
-        <h3 class="news-card-title">${localized.title || ''}</h3>
-        <div class="news-icon-row">
-          <div class="news-icon-box"><div class="news-icon-circle">✉</div></div>
-          <div class="news-icon-box"><div class="news-icon-circle">⛏</div></div>
-        </div>
+        <img class="news-card-image" src="${localized.image || ''}" alt="${localized.title || ''}">
       </div>
       <div class="news-card-body">
         <div class="news-footer">
           <div class="news-badge">KPM</div>
           <div>${t('company')}</div>
         </div>
+        <h3 class="news-card-title">${localized.title || ''}</h3>
         <p class="news-excerpt">${localized.excerpt || ''}</p>
         <div class="news-meta">
           <span>${item.date || ''}</span>
